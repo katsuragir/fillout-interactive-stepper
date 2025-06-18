@@ -1,10 +1,12 @@
 "use client";
 
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useState, useRef, useEffect } from "react";
+import { DynamicIcon } from "lucide-react/dynamic";
 import clsx from "clsx";
+import { Icon } from "../types";
 
 type StepCardProps = {
+  icon: Icon;
   id: string;
   label: string;
   active: boolean;
@@ -24,6 +26,7 @@ export const StepCard = ({
   renameStep,
   duplicateStep,
   deleteStep,
+  icon,
 }: StepCardProps) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -40,25 +43,22 @@ export const StepCard = ({
   }, []);
 
   return (
-    <div
-      className={clsx("relative px-2 py-1", active && "bg-blue-100 rounded")}
-    >
-      <button
+    <div className={clsx("relative")}>
+      <div
         onClick={onClick}
         className={clsx(
-          "px-4 py-2 rounded shadow-sm border",
-          active ? "bg-blue-500 text-white" : "bg-white text-gray-800"
+          "px-4 py-2 rounded-xl shadow-sm flex gap-2 items-center",
+          active ? "bg-white text-black" : "bg-disabled text-inactive"
         )}
       >
-        {label}
-      </button>
-
-      <button
-        onClick={() => setMenuVisible(!menuVisible)}
-        className="absolute -top-2 -right-2 p-1"
-      >
-        <DotsHorizontalIcon />
-      </button>
+        <DynamicIcon name={icon.name} color={icon.color} size={icon.size} />
+        <span>{label}</span>
+        {active && (
+          <button onClick={() => setMenuVisible(!menuVisible)} className="p-1">
+            <DynamicIcon name="ellipsis-vertical" color="#9DA4B2" size={20} />
+          </button>
+        )}
+      </div>
 
       {menuVisible && (
         <div

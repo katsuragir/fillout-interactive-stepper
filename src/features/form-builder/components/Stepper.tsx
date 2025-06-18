@@ -35,6 +35,7 @@ export const Stepper = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDragEnd = (event: any) => {
+    console.log("Drag ended", event);
     const { active, over } = event;
     if (active.id !== over.id) {
       const oldIndex = steps.findIndex((s) => s.id === active.id);
@@ -67,6 +68,7 @@ export const Stepper = () => {
                   renameStep={renameStep}
                   duplicateStep={duplicateStep}
                   deleteStep={deleteStep}
+                  icon={step.icon}
                 />
                 {index < steps.length - 1 && (
                   <InsertStepButton onClick={() => insertStep(index + 1)} />
